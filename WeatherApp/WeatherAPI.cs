@@ -34,7 +34,7 @@ namespace WeatherApp
             return data;
         }
 
-
+        //Ensures the request (zip code) was valid
         static async Task<WeatherData> TestClient(HttpClient client, HttpRequestMessage request, WeatherData data)
         {
             try
@@ -55,11 +55,11 @@ namespace WeatherApp
             return data;
         }
 
-        public void FinishedWithConnection(string json)
-        {
-
-        }
-
+        /// <summary>
+        /// Converts the JSON into a WeatherData object
+        /// </summary>
+        /// <param name="json"></param>
+        /// <returns></returns>
         public WeatherData ParseJson(string json)
         {
             WeatherData data = JsonConvert.DeserializeObject<WeatherData>(json);

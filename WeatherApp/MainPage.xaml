@@ -17,8 +17,9 @@
                 HorizontalOptions="Center" />
 
             <Image
-                Source="dotnet_bot.png"
-                SemanticProperties.Description="Cute dot net bot waving hi to you!"
+                x:Name="WeatherIcon"
+                Source="cloudy.png"
+                SemanticProperties.Description="Sunshine Icon"
                 HeightRequest="200"
                 HorizontalOptions="Center" />
 
@@ -29,28 +30,36 @@
                 FontSize="14"
                 HorizontalOptions="Center" />
 
+            <Label
+                x:Name="Location"
+                Text="Current Location:"
+                FontSize="14"
+                HorizontalOptions="Center"
+                />
+
+            <Label
+               x:Name="WeatherCondition"
+               Text="Condition:"
+               FontSize="14"
+               HorizontalOptions="Center"
+               />
+
             <Entry
                 x:Name="ZipEntry"
                 Placeholder="Please Enter Your Zip Code"
                 MaximumWidthRequest="200"
                 />
 
-
-            <!--" Button
-                x:Name="CounterBtn"
-                Text="Click me"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnCounterClicked"
-                HorizontalOptions="Center" -->
-            
             <Button
                 x:Name="RetrieveAPIButton"
                 Text="Update Weather"
                 Clicked="OnRetrieveClicked"
                 HorizontalOptions="Center"/>
-            
 
         </VerticalStackLayout>
+        
     </ScrollView>
+    
 
 </ContentPage>
+    
