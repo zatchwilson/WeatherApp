@@ -1,20 +1,41 @@
-﻿namespace WeatherApp;
+﻿using System.Net;
+using System.Net.Sockets;
+
+namespace WeatherApp;
 
 public partial class MainPage : ContentPage
 {
-    int count = 0;
     WeatherData data = null;
     WeatherAPI api = new WeatherAPI();
+    bool zipEntered = false;  
 
     public MainPage()
     {
         InitializeComponent();
     }
 
+    /// <summary>
+    /// Runs when Retrieve button is clicked
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void OnRetrieveClicked(object sender, EventArgs e)
     {
+        zipEntered = true;
         Task.Run(GetData);
     }
+
+    /// <summary>
+    /// Runs if the current location button was pressed
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void OnCurrentClicked(object sender, EventArgs e)
+    {
+        zipEntered = false;
+        Task.Run(GetData);
+    }
+
 
     /// <summary>
     /// Gets the current temperature from the Weather Data
@@ -22,7 +43,18 @@ public partial class MainPage : ContentPage
     /// <returns></returns>
     private Task GetData()
     {
-        data = api.StartClient(ZipEntry.Text);
+        //If using the zip code button, use that
+        if (zipEntered)
+        {
+            data = api.StartClient(ZipEntry.Text);
+        }
+        //If using 'current location', retrieve their IP and use that for the weather data
+        else
+        {
+            var externalIP = GetExternalIpAddress();
+            GetExternalIpAddress().Wait();
+            data = api.StartClient(externalIP.Result.ToString());
+        }
 
         //Checks if an invalid ZipCode was entered
         if (data == null)
@@ -33,8 +65,8 @@ public partial class MainPage : ContentPage
 
         //Sets the UI with the temperature, location, condition, and sets the icon
         Application.Current.MainPage.Dispatcher.Dispatch(() => WeatherText.Text = "The Current Temperature is " + data.current.Temp_f + " degrees.");
-        Application.Current.MainPage.Dispatcher.Dispatch(() => Location.Text = "Location: " + data.location.Name);
-        Application.Current.MainPage.Dispatcher.Dispatch(() => WeatherCondition.Text = "Condition: " + data.current.Condition.Text);
+        Application.Current.MainPage.Dispatcher.Dispatch(() => Location.Text = data.location.Name);
+        Application.Current.MainPage.Dispatcher.Dispatch(() => WeatherCondition.Text = data.current.Condition.Text);
         setIcon(data.current.Condition.Code);
         
         return Task.CompletedTask;
@@ -74,6 +106,18 @@ public partial class MainPage : ContentPage
         {
             Application.Current.MainPage.Dispatcher.Dispatch(() => WeatherIcon.Source = "stormy.png");
         }
+    }
+
+    /// <summary>
+    /// Retreives the user's public facing IP from "icanhazip.com"
+    /// </summary>
+    /// <returns></returns>
+    public static async Task<IPAddress?> GetExternalIpAddress()
+    {
+        var externalIpString = (await new HttpClient().GetStringAsync("http://icanhazip.com"))
+            .Replace("\\r\\n", "").Replace("\\n", "").Trim();
+        if (!IPAddress.TryParse(externalIpString, out var ipAddress)) return null;
+        return ipAddress;
     }
 }
 

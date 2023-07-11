@@ -4,62 +4,113 @@
              x:Class="WeatherApp.MainPage">
 
     <ScrollView>
-        <VerticalStackLayout
-            Spacing="25"
+        <Grid Margin="20, 35, 20, 20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="200"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="25"/>
+
+            </Grid.RowDefinitions>
+            <!--<Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="125"/>
+                <ColumnDefinition Width="125"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>-->
+            <!--Spacing="25"
             Padding="30,0"
-            VerticalOptions="Center">
+            VerticalOptions="Center">-->
 
             <Label
                 x:Name="CurrWeather"
                 Text="Current Weather"
                 SemanticProperties.HeadingLevel="Level1"
                 FontSize="32"
-                HorizontalOptions="Center" />
+                HorizontalOptions="Center"
+                Grid.Row="0"
+                Grid.ColumnSpan="4"/>
+
 
             <Image
                 x:Name="WeatherIcon"
                 Source="cloudy.png"
                 SemanticProperties.Description="Sunshine Icon"
                 HeightRequest="200"
-                HorizontalOptions="Center" />
-
-            <Label
-                x:Name="WeatherText"
-                Text="Weather Info Here"
-                SemanticProperties.HeadingLevel="Level2"
-                FontSize="14"
-                HorizontalOptions="Center" />
+                HorizontalOptions="Center" 
+                Grid.Row="1"
+                Grid.ColumnSpan="4"/>
 
             <Label
                 x:Name="Location"
                 Text="Current Location:"
                 FontSize="14"
                 HorizontalOptions="Center"
+                Grid.Row="2"
+                Grid.ColumnSpan="4"
                 />
+
+            <Label
+                x:Name="WeatherText"
+                Text="Weather Info Here"
+                SemanticProperties.HeadingLevel="Level2"
+                FontSize="14"
+                HorizontalOptions="Center" 
+                Grid.ColumnSpan="4"
+                Grid.Row="3"/>
 
             <Label
                x:Name="WeatherCondition"
                Text="Condition:"
                FontSize="14"
                HorizontalOptions="Center"
+                Grid.Row="4"
+                Grid.ColumnSpan="4"
                />
 
             <Entry
                 x:Name="ZipEntry"
                 Placeholder="Please Enter Your Zip Code"
                 MaximumWidthRequest="200"
+                Grid.Row="5"
+                Grid.ColumnSpan="4"
                 />
 
             <Button
                 x:Name="RetrieveAPIButton"
                 Text="Update Weather"
                 Clicked="OnRetrieveClicked"
-                HorizontalOptions="Center"/>
+                HorizontalOptions="Center"
+                Grid.Row="6"
+                Grid.ColumnSpan="4"/>
+            
+            <Button
+                x:Name="IPButton"
+                Text="Use Current Location"
+                Clicked="OnCurrentClicked"
+                HorizontalOptions="Center"
+                Grid.Row="7"
+                Grid.ColumnSpan="4"/>
 
-        </VerticalStackLayout>
-        
+            <Label
+               Text="(This may be slightly inaccurate as it pulls your public IP Address from your ISP)"
+               FontSize="10"
+               HorizontalOptions="Center"
+                Grid.Row="8"
+                Grid.ColumnSpan="4"
+               />
+
+
+
+        </Grid>
+
     </ScrollView>
-    
+
 
 </ContentPage>
     

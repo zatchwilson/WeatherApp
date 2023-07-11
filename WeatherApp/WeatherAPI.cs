@@ -12,10 +12,10 @@ namespace WeatherApp
 {
     public class WeatherAPI
     {
-        public WeatherData StartClient(string zipCode)
+        public WeatherData StartClient(string apiRequest)
         {
             string apiKey = ConfigurationManager.AppSettings.Get("APIKey");
-            string rnUri = "https://weatherapi-com.p.rapidapi.com/current.json?q=" + zipCode;
+            string rnUri = "https://weatherapi-com.p.rapidapi.com/current.json?q=" + apiRequest;
             WeatherData data = null;
             var client = new HttpClient();
             var request = new HttpRequestMessage
@@ -52,17 +52,6 @@ namespace WeatherApp
                 Console.WriteLine("The information that was input is not valid.");
             }
 
-            return data;
-        }
-
-        /// <summary>
-        /// Converts the JSON into a WeatherData object
-        /// </summary>
-        /// <param name="json"></param>
-        /// <returns></returns>
-        public WeatherData ParseJson(string json)
-        {
-            WeatherData data = JsonConvert.DeserializeObject<WeatherData>(json);
             return data;
         }
     }
